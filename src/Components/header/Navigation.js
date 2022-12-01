@@ -1,5 +1,5 @@
 import React from "react";
-import {Navbar, NavbarBrand} from "reactstrap";
+import { Navbar, NavbarBrand } from "reactstrap";
 
 let Navigation = () => {
     return (

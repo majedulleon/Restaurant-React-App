@@ -4,7 +4,7 @@ import Navigation from "./Navigation";
 let Header = () => {
     return (
         <div>
-            <Navigation/>
+            <Navigation />
         </div>
     );
 }
