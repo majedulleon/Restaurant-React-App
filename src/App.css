@@ -4,3 +4,18 @@
   text-align: center;
   font-family: 'Ubuntu', sans-serif;
 }
+
+.footer {
+  background-color: beige;
+  margin: 0px auto;
+  padding-top: 10px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.row-content {
+  margin: 0px auto;
+  padding: 50px 0px 50px 0px;
+  min-height: 400px;
+}
