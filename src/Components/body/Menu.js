@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import MenuItem from "./MenuItem.js";
 import DishDetail from "./DishDetail";
-import { CardColumns, Modal, ModalBody, ModalFooter, Button } from "reactstrap";
+import { CardColumns, Modal, ModalBody, ModalFooter, Button, Alert } from "reactstrap";
 import { connect } from "react-redux";
-import { addComment, fetchDishes } from "../../redux/actionCreators.js";
+import { addComment, fetchDishes, fetchComments } from "../../redux/actionCreators.js";
 import Loading from './Loading';
 
 let mapStateToProps = (state) => {
@@ -16,7 +16,7 @@ let mapStateToProps = (state) => {
 let mapDispatchToProps = (dispatch) => {
     return {
         addComment: (dishId, rating, author, comment) => dispatch(addComment(dishId, rating, author, comment)),
-        fetchDishes: () => dispatch(fetchDishes())
+        fetchDishes: () => dispatch(fetchDishes()), fetchComments: () => dispatch(fetchComments())
     }
 }
 
@@ -40,6 +40,7 @@ class Menu extends Component {
 
     componentDidMount() {
         this.props.fetchDishes();
+        this.props.fetchComments();
     }
 
     render() {
@@ -51,6 +52,15 @@ class Menu extends Component {
                 <Loading />
             );
         }
+
+        else if (this.props.errMess != null) {
+            return (
+                <Alert color="dangerous">
+                    {this.props.dishes.errMess}
+                </Alert>
+            );
+        }
+
         else {
             let menu = this.props.dishes.dishes.map((item) => {
                 return (
@@ -60,13 +70,14 @@ class Menu extends Component {
 
             let dishDetail = null;
             if (this.state.selectedDish != null) {
-                let comments = this.props.comments.filter(comment => {
+                let comments = this.props.comments.comments.filter(comment => {
                     return comment.dishId === this.state.selectedDish.id;
                 })
                 dishDetail = <DishDetail
                     dish={this.state.selectedDish}
                     comments={comments}
-                    addComment={this.props.addComment} />
+                    addComment={this.props.addComment}
+                    commentsIsLoading={this.props.comments.isLoading} />
             }
             return (
                 <div className="container">
@@ -84,15 +95,11 @@ class Menu extends Component {
                                 </Button>
                             </ModalFooter>
                         </Modal>
-
                     </div>
-
                 </div>
             );
 
         }
-
-
     }
 }
 
